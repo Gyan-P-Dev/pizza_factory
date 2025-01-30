@@ -1,5 +1,5 @@
 class Order
-  attr_accessor :id, :status, :order_pizzas, :sides, :errors
+  attr_accessor :id, :status, :order_pizzas, :sides, :errors, :order_value
 
   @@orders = []
   @@next_id = 1
@@ -12,6 +12,8 @@ class Order
     @order_pizzas = []
     @sides = attributes[:sides] || []
     @errors = []
+    @order_value = 0
+    binding.pry
     
     if attributes[:pizzas]
       attributes[:pizzas].each do |pizza_attrs|
@@ -22,7 +24,11 @@ class Order
           toppings: pizza_attrs[:topping_ids],
           base_price: pizza_attrs[:base_price]
         )
-        @order_pizzas << order_pizza if order_pizza.valid?
+        binding.pry
+        if order_pizza.valid?
+          @order_pizzas << order_pizza
+          @order_value  += total_amount
+        end
       end
     end
     
@@ -31,6 +37,7 @@ class Order
 
   def self.create(attributes)
     order = new(attributes)
+    binding.pry
     if order.valid?
       @@orders << order
       order
@@ -62,7 +69,6 @@ class Order
       side = Side.find(side_order[:id])
       side ? (side.price * side_order[:quantity]) : 0
     end
-
     pizza_amount + side_amount
   end
 
@@ -104,6 +110,7 @@ class Order
   end
 
   def validate_sides
+    
     sides.all? do |side_order|
       side = Side.find(side_order[:id])
       return add_error("Invalid side item") unless side
