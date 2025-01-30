@@ -28,4 +28,8 @@ class Side
   def self.find(id)
     @@sides.find { |side| side.id == id.to_i }
   end
+
+  def valid?
+    !name.nil? && !price.nil?
+  end
 end
