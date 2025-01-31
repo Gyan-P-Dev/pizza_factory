@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderPizza
   attr_accessor :id, :pizza_id, :size, :crust, :toppings, :base_price
 
@@ -32,6 +34,7 @@ class OrderPizza
     return false unless pizza_id && size && crust && base_price
     return false unless Pizza::SIZES.key?(size.to_sym)
     return false unless Pizza::CRUSTS.key?(crust.to_sym)
+
     true
   end
 end

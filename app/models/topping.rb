@@ -1,16 +1,19 @@
+# frozen_string_literal: true
+
 class Topping
-  attr_accessor :id, :name, :price, :category
+  attr_accessor :id, :name, :price, :category, :quantity
 
   @@toppings = []
   @@next_id = 1
 
-  CATEGORIES = { vegetarian: 0, non_vegetarian: 1 }
+  CATEGORIES = { vegetarian: 0, non_vegetarian: 1 }.freeze
 
   def initialize(attributes = {})
     @id = @@next_id
     @name = attributes[:name]
     @price = attributes[:price]
     @category = attributes[:category]
+    @quantity = 15
     @@next_id += 1
   end
 

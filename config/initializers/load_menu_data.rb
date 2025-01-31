@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # Initialize menu data
-require Rails.root.join("app/models/pizza")
-require Rails.root.join("app/models/topping")
-require Rails.root.join("app/models/side")
+require Rails.root.join('app/models/pizza')
+require Rails.root.join('app/models/topping')
+require Rails.root.join('app/models/side')
 [
   { name: 'Deluxe Veggie', category: :vegetarian, base_price: { regular: 150, medium: 200, large: 325 } },
   { name: 'Cheese and corn', category: :vegetarian, base_price: { regular: 175, medium: 375, large: 475 } },

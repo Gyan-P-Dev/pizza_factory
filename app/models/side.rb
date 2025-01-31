@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Side
-  attr_accessor :id, :name, :price
+  attr_accessor :id, :name, :price, :quantity
 
   @@sides = []
   @@next_id = 1
@@ -8,6 +10,7 @@ class Side
     @id = @@next_id
     @name = attributes[:name]
     @price = attributes[:price]
+    @quantity = 10
     @@next_id += 1
   end
 
