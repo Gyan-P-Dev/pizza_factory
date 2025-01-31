@@ -8,7 +8,7 @@ class SidesController < ApplicationController
   end
 
   def create
-    side = Side.create(side_params)
+    side = Side.create(side_params) if valid_params
     if side
       render json: { side: side, message: 'Side created successfully' }, status: :created
     else
@@ -30,8 +30,12 @@ class SidesController < ApplicationController
   end
 
   def update
-    @side.price = params[:price]
-    render json: { side: @side, message: 'Side updated succesfully' }
+    if params[:price].present?
+      @side.price = params[:price].to_i
+      render json: { side: @side, message: 'Side updated succesfully' }, status: :ok
+    else
+      render json: { message: 'Please provide valid price' }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -43,5 +47,12 @@ class SidesController < ApplicationController
 
   def side_params
     params.require(:side).permit(:name, :price, :quantity)
+  end
+
+  def valid_params
+    data = params[:side]
+    return true if data[:name].present? && data[:price].present? && data[:quantity].present?
+
+    false
   end
 end

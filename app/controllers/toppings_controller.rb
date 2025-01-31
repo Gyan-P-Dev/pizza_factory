@@ -23,15 +23,15 @@ class ToppingsController < ApplicationController
   def restock
     if params[:topping_quantity].present? && params[:topping_quantity].to_i.positive?
       @topping.quantity += params[:topping_quantity].to_i
-      return render json: { topping: @topping, message: 'Topping restocked successfully' }
+      return render json: { topping: @topping, message: 'Topping restocked successfully' }, status: :ok
     end
 
-    render json: { topping: @topping, message: 'Topping not restocked' }
+    render json: { topping: @topping, message: 'Topping not restocked' }, status: :unprocessable_entity
   end
 
   def update
     if params[:price].present?
-      @topping.price = params[:price]
+      @topping.price = params[:price].to_i
       render json: { topping: @topping, message: 'Topping updated succesfully' }, status: :ok
     else
       render json: { message: 'Please provide valid price' }, status: :unprocessable_entity

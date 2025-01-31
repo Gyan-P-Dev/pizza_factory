@@ -55,12 +55,12 @@ class Order
     pizza_amount = order_pizzas.sum do |order_pizza|
       pizza_price = order_pizza.base_price
       toppings = Topping.find_many(order_pizza.toppings || [])
-      pizza_price + calculate_topping_charges(order_pizza, toppings)
+      pizza_price.to_i + calculate_topping_charges(order_pizza, toppings)
     end
 
     side_amount = sides.sum do |side_order|
       side = Side.find(side_order[:id])
-      side ? (side.price * side_order[:quantity]) : 0
+      side ? (side.price * side_order[:quantity].to_i) : 0
     end
     pizza_amount + side_amount
   end
@@ -69,7 +69,6 @@ class Order
 
   def calculate_topping_charges(order_pizza, toppings)
     return 0 if order_pizza.size == :large && toppings.count <= 2
-
     toppings.sum(&:price)
   end
 

@@ -2,8 +2,12 @@
 
 class PizzasController < ApplicationController
   before_action :set_pizza, only: %i[show update restock]
+
   def index
-    render json: Pizza.all
+    pizzas = Pizza.all
+    pizzas = pizzas.select { |pizza| pizza.category.to_s == params[:category] } if params[:category].present?
+
+    render json: pizzas
   end
 
   def create
@@ -30,7 +34,7 @@ class PizzasController < ApplicationController
 
   def update
     if params[:base_price].present?
-      @pizza.base_price = params[:base_price]
+      @pizza.base_price = params[:base_price].to_i
       render json: { pizza: @pizza, message: 'Pizza updated succesfully' }, status: :ok
     else
       render json: { message: 'Please provide valid price' }, status: :unprocessable_entity
